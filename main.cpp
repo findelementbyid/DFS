@@ -2,11 +2,11 @@
 #include <vector>
 
 using namespace std;
-int count = 0;
 
+int maxs = INT_MAX;
+vector<vector<int>> tmpArr;
 void permutations(vector<vector<int>> jobs, int i, int n);
-void cmax();
-
+void cmax(vector<vector<int>> jobs, vector<int> object_value);
 
 int main() {
     vector<vector<int>> jobs = {{0, 6},
@@ -17,38 +17,65 @@ int main() {
                                 {9, 2}};
 
     // print initial vector
+    cout << "initial sequence: ";
     for (int i = 0; i < jobs.size(); i++) {
+        cout << "[";
         for (int j = 0; j < 2; j++) {
-            cout << jobs[i][j];
+            if (j < 1) cout << jobs[i][j] << ",";
+            else cout << jobs[i][j];
         }
-        cout << endl;
+        if (i < jobs.size() - 1) cout << "], ";
+        else cout << "]";
     }
-    cout << "permutation" << endl;
-    permutations(jobs, 0, 6);
-    cout << "permutations: " << count;
+    cout << endl;
 
+    cout << "permutations: " << endl;
+    permutations(jobs, 0, 6);
+
+    //print the optimal(min.) object value
+    cout << "min cmax is: " << maxs;
+    
     return 0;
 }
 
 // calculate object value
-void cmax(vector<vector<int>> jobs, vector<int> object_value) {
+int cmax(vector<vector<int>> tmp, int n) {
+    int objectValue = 0;
 
+    for (int i = 0; i < tmp.size(); i++) {
+        if (tmp[i][0] <= objectValue) {
+            objectValue += tmp[i][1];
+        } else {
+            int temp = tmp[i][0] - objectValue;
+            objectValue += temp + tmp[i][1];
+        }
+    }
+
+    cout << " = " << objectValue;
+
+    return objectValue;
 }
+
 
 // find all permutation
 void permutations(vector<vector<int>> jobs, int i, int n) {
+
     // base condition
     if (i == n - 1) {
-        for (int k = 0; k < jobs.size(); k++) {
+        for (int j = 0; j < jobs.size(); j++) {
             cout << "[";
-            for (int j = 0; j < 2; j++) {
-                cout << jobs[k][j] << ",";
+            for (int k = 0; k < 2; k++) {
+                if (k < 1) cout << jobs[j][k] << ",";
+                else cout << jobs[j][k];
             }
-            cout << "],";
+            if (j < jobs.size() - 1) cout << "],";
+            else cout << "]";
+            tmpArr.push_back(jobs[j]);
         }
+        int objectValue = cmax(tmpArr, 6);
         cout << endl;
-        count++;
-        return;
+        tmpArr.clear();
+        if (objectValue <= maxs) maxs = objectValue;
     }
 
     // process each character of the remaining string
@@ -63,12 +90,3 @@ void permutations(vector<vector<int>> jobs, int i, int n) {
         swap(jobs[i], jobs[j]);
     }
 }
-
-
-//void swap(vector<int> a, vector<int> b) {
-//    vector<int> tmp = a;
-//    a = b;
-//    b = tmp;
-//}
-
-
