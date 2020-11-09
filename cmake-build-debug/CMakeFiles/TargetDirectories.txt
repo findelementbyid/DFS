@@ -1,0 +1,3 @@
+/home/ziva/CLionProjects/C++/DFS_BFS/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ziva/CLionProjects/C++/DFS_BFS/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ziva/CLionProjects/C++/DFS_BFS/cmake-build-debug/CMakeFiles/DFS_BFS.dir
